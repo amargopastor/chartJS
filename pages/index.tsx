@@ -1,8 +1,8 @@
 import Title from '../components/Title';
 
 const IndexPage = () => (
-  <section>
-    <Title txt="Homepage" />
-  </section>
+  <main>
+    <Title txt="Welcome" />
+  </main>
 );
 export default IndexPage;

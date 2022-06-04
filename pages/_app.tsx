@@ -1,15 +1,19 @@
 import { ThemeProvider } from 'styled-components';
 import PropTypes from 'prop-types';
+import { SWRConfig } from 'swr';
+import fetcher from '../lib/swr-fetcher';
 import { GlobalStyles, lightTheme } from '../style/theme.congif';
 import Menu from '../components/Menu';
 
 const MyApp = ({ Component, pageProps }) => (
   <ThemeProvider theme={lightTheme}>
     <GlobalStyles />
-    <main>
-      <Menu />
-      <Component {...pageProps} />
-    </main>
+    <SWRConfig value={{ refreshInterval: 10 * 1000, fetcher }}>
+      <main>
+        <Menu />
+        <Component {...pageProps} />
+      </main>
+    </SWRConfig>
   </ThemeProvider>
 );
 

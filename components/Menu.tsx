@@ -33,8 +33,8 @@ const Menu = () => (
       </Link>
     </p>
     <p>
-      <Link href="/genderless">
-        <Anchor>Genderless data</Anchor>
+      <Link href="/all">
+        <Anchor>All data</Anchor>
       </Link>
     </p>
   </Overlay>
