@@ -1,9 +1,7 @@
-import Title from '../components/Title';
+import React from 'react';
 
 const IndexPage = () => (
-  <section>
-    <Title txt="Welcome" />
-  </section>
+  <></>
 );
 
 export default IndexPage;

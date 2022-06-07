@@ -1,10 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
-// import useSWR from 'swr';
 import PropTypes from 'prop-types';
-import { getCounties } from './api';
+import { getCountiesFromAPI } from './api';
+import { CountiesList, Countie } from '../types/countie';
+import { DataContextInterface } from '../types/dataContext';
 
 // Create context
-export const DataContext = React.createContext({});
+export const DataContext = React.createContext({} as DataContextInterface);
 
 // Functions that return the created context
 export const useDataContext = () => {
@@ -15,54 +16,44 @@ export const useDataContext = () => {
 export const DataManager = ({ children }) => {
   const [counties, setCounties] = useState([]);
 
-  // Load the ingredients from database via API
-  useEffect(() => {
-    getCounties().then((e) => {
-      e.forEach((ing) => {
-        setCounties(((ppp) => [...ppp, ing]));
+  const startCountiesInfo = () => {
+    // empty state
+    setCounties(() => []);
+    // Load the counties from database via API
+    getCountiesFromAPI().then((cs:CountiesList) => {
+      cs.forEach((c:Countie) => {
+        setCounties(((currents:CountiesList) => [...currents, c]));
       });
     });
-  }, []);
+  };
 
-  const apply_filter = ({ filtered_areas }) => {
-    console.log(filtered_areas);
+  useEffect(() => { startCountiesInfo(); }, []);
 
-    if (!filtered_areas.length) {
-      console.log('empty!');
-      setCounties((c) => []);
-      getCounties().then((e) => {
-        e.forEach((ing) => {
-          setCounties(((ppp) => [...ppp, ing]));
-        });
+  const applyFilter = (info) => {
+    if (info.filterAreas.length) {
+      const filteredCounties = counties.map((e) => (info.filterAreas.includes(e.value)
+        ? { ...e, active: true } : { ...e, active: false }));
+
+      // empty list
+      setCounties(() => []);
+      // Load the filtered counties
+      filteredCounties.forEach((c:Countie) => {
+        setCounties(((currents:CountiesList) => [...currents, c]));
       });
-      return false;
+    } else {
+      startCountiesInfo();
     }
-
-    const items_filtered = counties.map((e) => (filtered_areas.includes(e.value)
-      ? { ...e, active: true } : { ...e, active: false }));
-
-    // empty list
-    setCounties((c) => []);
-    items_filtered.forEach((ing) => {
-      setCounties(((ops) => [...ops, ing]));
-    });
-
-    return false;
+    return true;
   };
 
   return (
     // eslint-disable-next-line react/jsx-no-constructed-context-values
-    <DataContext.Provider value={{ counties, apply_filter }}>
+    <DataContext.Provider value={{ counties, applyFilter }}>
       {children}
     </DataContext.Provider>
   );
 };
 
-DataManager.defaultProps = {
-  children: PropTypes.any,
-};
-
 DataManager.propTypes = {
-  // eslint-disable-next-line react/forbid-prop-types
-  children: PropTypes.any,
+  children: PropTypes.node.isRequired,
 };

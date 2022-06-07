@@ -1,3 +1,4 @@
+import React from 'react';
 import { ThemeProvider } from 'styled-components';
 import PropTypes from 'prop-types';
 import { GlobalStyles, lightTheme } from '../style/theme.congif';

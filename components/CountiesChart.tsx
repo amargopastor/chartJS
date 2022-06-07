@@ -10,15 +10,13 @@ import {
 } from 'chart.js';
 import { useDataContext } from '../lib/useContext';
 import pathname from '../utils/location.pathname';
+import { DataContextInterface } from '../types/dataContext';
+import { Countie } from '../types/countie';
 
 Chart.register(BarElement, BarController, LinearScale, CategoryScale);
 
 const CountiesChart = () => {
-  // data
-  const data = useDataContext();
-  // if (!geographic_data.counties) {
-  //   <div>No data available</div>;
-  // }
+  const data:DataContextInterface = useDataContext();
 
   // chartJS
   const ref = useRef<HTMLCanvasElement>();
@@ -32,7 +30,6 @@ const CountiesChart = () => {
         labels: [],
         datasets: [
           {
-            label: '# of Votes',
             data: [],
             backgroundColor: 'rgba(255, 159, 64, 0.2)',
             borderColor: 'rgba(255, 159, 64, 1)',
@@ -53,21 +50,16 @@ const CountiesChart = () => {
   useEffect(() => {
     if (!data.counties !== false || !chart) return;
 
-    // chart
-    chart.data.labels = [...data.counties.filter((e) => e.active).map((e) => e.label)];
-    chart.data.datasets[0].data = [...data.counties.filter(
-      (e) => e.active,
-    ).map((e) => e[pathname()])];
+    chart.data.labels = [...data.counties.filter((e:Countie) => e.active)
+      .map((e:Countie) => e.label)];
+    chart.data.datasets[0].data = [...data.counties.filter((e:Countie) => e.active)
+      .map((e:Countie) => e[pathname()])];
 
     chart.update();
   }, [data]);
   return (
     <section>
-      {/* <pre>{JSON.stringify(geographic_data.items, null, 2)}</pre>
-      <pre>{JSON.stringify(geographic_data.filtered_data, null, 2)}</pre> */}
-      <div style={{ height: 500 }}>
-        <canvas ref={ref} />
-      </div>
+      <canvas ref={ref} />
     </section>
 
   );

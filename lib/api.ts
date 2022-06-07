@@ -1,13 +1,13 @@
 import axios from 'axios';
+import { CountiesList } from '../types/countie';
 
 const apiBaseURL = 'https://api.idescat.cat/pob/v1';
 const api = axios.create({ baseURL: apiBaseURL });
 
-export const getCounties = async () => {
+export const getCountiesFromAPI = async () => {
   const res = await api.get('/cerca.json?p=tipus/com');
   if (res.data) {
-    console.log('getting data');
-    const filtered_data = res.data.feed.entry.map((e) => ({
+    const filteredData:CountiesList = res.data.feed.entry.map((e) => ({
       value: e['cross:DataSet']['cross:Section'].AREA,
       label: e.title,
       active: true,
@@ -15,7 +15,7 @@ export const getCounties = async () => {
       female: e['cross:DataSet']['cross:Section']['cross:Obs'][1].OBS_VALUE,
       all: e['cross:DataSet']['cross:Section']['cross:Obs'][2].OBS_VALUE,
     }));
-    return filtered_data;
+    return filteredData;
   }
   return false;
 };
