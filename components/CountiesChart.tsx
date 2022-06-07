@@ -15,10 +15,10 @@ Chart.register(BarElement, BarController, LinearScale, CategoryScale);
 
 const CountiesChart = () => {
   // data
-  const geographic_data = useDataContext();
-  if (!geographic_data.items) {
-    <div>No data available</div>;
-  }
+  const data = useDataContext();
+  // if (!geographic_data.counties) {
+  //   <div>No data available</div>;
+  // }
 
   // chartJS
   const ref = useRef<HTMLCanvasElement>();
@@ -51,14 +51,16 @@ const CountiesChart = () => {
   }, [ref.current]);
 
   useEffect(() => {
-    if (!geographic_data.items !== false || !chart) return;
+    if (!data.counties !== false || !chart) return;
 
     // chart
-    chart.data.labels = [...geographic_data.items.map((e) => e.name)];
-    chart.data.datasets[0].data = [...geographic_data.items.map((e) => e[pathname()])];
+    chart.data.labels = [...data.counties.filter((e) => e.active).map((e) => e.label)];
+    chart.data.datasets[0].data = [...data.counties.filter(
+      (e) => e.active,
+    ).map((e) => e[pathname()])];
 
     chart.update();
-  }, [geographic_data]);
+  }, [data]);
   return (
     <section>
       {/* <pre>{JSON.stringify(geographic_data.items, null, 2)}</pre>
