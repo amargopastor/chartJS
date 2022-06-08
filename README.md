@@ -37,7 +37,7 @@
 
 ## About
 
-A simple project that shows population data by region and gender in Catalonia.
+A small project that shows population data by region and gender in Catalonia.
 
 ## Set Up
 
