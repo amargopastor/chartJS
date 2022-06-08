@@ -8,12 +8,12 @@ import { DataContextInterface } from '../types/dataContext';
 import SubmitButton from './SubmitButton';
 
 const Form = stl.form`
+  display: flex;
+  justify-content: space-between;
   border: 1px solid #E99BAC;
   border-radius: 15px;
   padding: 2%;
   margin: 2%;
-  display: flex;
-  justify-content: space-between;
 `;
 
 const Div = stl.div`
@@ -36,7 +36,6 @@ const CountiesForm = () => {
   };
 
   return (
-    // <section style={{ display: 'flex', flexWrap: 'wrap' }}>
     <section>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Div>

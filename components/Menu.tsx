@@ -24,7 +24,7 @@ const Anchor = styled.a`
     };
     activeStyle={{
       fontWeight: 'bold',
-      color: #ff0000, // red
+      color: #ff0000,
     }}
 `;
 
@@ -34,7 +34,7 @@ const Menu = () => {
     <Overlay>
       <Parraf>
         <Link href="/">
-          <Anchor className={router.pathname === '/' ? 'active' : ''}>Home</Anchor>
+          <Anchor className={router.pathname === '/' ? 'active' : ''}>All data</Anchor>
         </Link>
       </Parraf>
       <Parraf>
@@ -45,11 +45,6 @@ const Menu = () => {
       <Parraf>
         <Link href="/male">
           <Anchor className={router.pathname === '/male' ? 'active' : ''}>Male data</Anchor>
-        </Link>
-      </Parraf>
-      <Parraf>
-        <Link href="/all">
-          <Anchor className={router.pathname === '/all' ? 'active' : ''}>All data</Anchor>
         </Link>
       </Parraf>
     </Overlay>
